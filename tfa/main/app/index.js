@@ -7,8 +7,14 @@ const iframes = []
 document.addEventListener('DOMContentLoaded', init)
 
 function init () {
-  const iframeControl = makeIframe({ src: 'http://localhost:3001' })
-  const iframe3D = makeIframe({ src: 'http://localhost:3002' })
+  const iframe3D = makeIframe({
+    src: 'http://localhost:3001/index.html',
+    name: 'iframe-3d',
+  })
+  const iframeControl = makeIframe({
+    src: 'http://localhost:3002/index.html',
+    name: 'iframe-control',
+  })
   container.appendChild(iframeControl)
   container.appendChild(iframe3D)
 
@@ -37,9 +43,11 @@ function makeIframe ({
   className = 'page-iframe'
 }) {
   const iframe = document.createElement('iframe')
-  iframe.classList.add(className)
-  iframe.setAttribute('src', src)
+  const queryParams = new URLSearchParams()
+  queryParams.append('name', name)
+  iframe.setAttribute('src', `${src}?${queryParams.toString()}`)
   iframe.setAttribute('width', width)
   iframe.setAttribute('height', height)
+  iframe.classList.add(className)
   return iframe
 }
