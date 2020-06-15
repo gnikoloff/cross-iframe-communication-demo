@@ -1,0 +1,20 @@
+{
+  "name": "iframe-3d",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-server": "nodemon server",
+    "watch": "parcel watch index.html --out-dir dist/",
+    "start": "npm-run-all --parallel start-server watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "parcel": "^1.12.4"
+  }
+}
