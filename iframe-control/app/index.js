@@ -4,6 +4,7 @@ import {
   EVT_IFRAME_MOUSEMOVED,
   EVT_IFRAME_CONTROL_MOUSEDOWN,
   EVT_IFRAME_MOUSEPRESSED,
+  EVT_IFRAME_FRAME_RENDERED,
 } from '../../shared/constants'
 
 import {
@@ -13,17 +14,17 @@ import {
 
 import './styles'
 
-const ALLOWED_COLORS = ['#1abc9c', '#16a085', '#f39c12', '#f1c40f', '#c0392b', '#3498db', '#8e44ad']
 const iframeName = getIframeName(window.location.search)
 
 const dpr = devicePixelRatio || 1
 
 let canvas
+let cursorPosition
 let ctx
-let lastMouseX
-let lastMouseY
 let isMouseDown = false
-let currColorIdx = 0
+let mouseX = 0
+let mouseY = 0
+let cursorRadius = 0
 
 document.addEventListener('DOMContentLoaded', init)
 
@@ -32,6 +33,12 @@ function init () {
     type: EVT_IFRAME_READY,
     iframeName,
   })
+
+  cursorPosition = document.createElement('div')
+  cursorPosition.style.position = 'fixed'
+  cursorPosition.style.zIndex = '1'
+  cursorPosition.style.right = cursorPosition.style.bottom = '24px'
+  document.body.appendChild(cursorPosition)
 
   canvas = document.createElement('canvas')
   canvas.width = innerWidth * dpr
@@ -62,21 +69,34 @@ function onWindowMessage (e) {
     case EVT_IFRAME_MOUSEPRESSED: {
       const { mouseX, mouseY } = data.payload
       isMouseDown = true
-      lastMouseX = mouseX
-      lastMouseY = mouseY
-      ++currColorIdx
-      currColorIdx %= ALLOWED_COLORS.length
       break
     }
     case EVT_IFRAME_MOUSEMOVED: {
-      const { mouseX, mouseY } = data.payload
+      mouseX = data.payload.mouseX
+      mouseY = data.payload.mouseY
+      break
+    }
+    case EVT_IFRAME_FRAME_RENDERED: {
+      const { dt } = data.payload
+      if (!isMouseDown) {
+        return
+      }
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)'
       ctx.beginPath()
-      ctx.strokeStyle = ALLOWED_COLORS[currColorIdx]
-      ctx.moveTo(lastMouseX, lastMouseY)
+      ctx.moveTo(0, 0)
       ctx.lineTo(mouseX, mouseY)
+      ctx.lineTo(canvas.width, canvas.height)
       ctx.stroke()
-      lastMouseX = mouseX
-      lastMouseY = mouseY
+      ctx.beginPath()
+      ctx.moveTo(canvas.width, 0)
+      ctx.lineTo(mouseX, mouseY)
+      ctx.lineTo(0, canvas.height)
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.arc(mouseX, mouseY, 5, 0, Math.PI * 2)
+      ctx.fill()
+      cursorPosition.textContent = `X: ${mouseX} Y: ${mouseY}`
       break
     }
   }
@@ -95,17 +115,16 @@ function onMouseDown (e) {
 }
 
 function onMouseMove (e) {
-  if (isMouseDown) {
-    sendMessageToParent({
-      type: EVT_IFRAME_CONTROL_MOUSEMOVE,
-      payload: {
-        mouseX: e.pageX,
-        mouseY: e.pageY,
-        width: innerWidth,
-        height: innerHeight,
-      }
-    })
-  }
+  sendMessageToParent({
+    type: EVT_IFRAME_CONTROL_MOUSEMOVE,
+    payload: {
+      isMouseDown,
+      mouseX: e.pageX,
+      mouseY: e.pageY,
+      width: innerWidth,
+      height: innerHeight,
+    }
+  })
 }
 
 function onMouseUp () {

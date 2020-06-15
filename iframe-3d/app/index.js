@@ -47,6 +47,7 @@ function init () {
   scene.add(new THREE.GridHelper(20, 20))
 
   window.addEventListener('message', onMessage)
+  window.addEventListener('resize', onResize)
 
 }
 
@@ -72,7 +73,10 @@ function onMessage (e) {
       break
     }
     case EVT_IFRAME_MOUSEMOVED: {
-      const { mouseX, mouseY, width, height } = data.payload
+      const { isMouseDown, mouseX, mouseY, width, height } = data.payload
+      if (!isMouseDown) {
+        return
+      }
       const dx = (mouseX - oldMouseX) * 0.5
       const dy = (mouseY - oldMouseY) * 0.5
       const azimuthAngle = dx * (Math.PI / 180)
@@ -86,3 +90,8 @@ function onMessage (e) {
 
 }
 
+function onResize () {
+  renderer.setSize(innerWidth, innerHeight)
+  camera.aspect = innerWidth / innerHeight
+  camera.updateProjectionMatrix()
+}

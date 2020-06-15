@@ -78,10 +78,10 @@ function onWindowMessage (e) {
       break
     }
     case EVT_IFRAME_CONTROL_MOUSEMOVE: {
-      const { mouseX, mouseY, width, height } = data.payload
+      const { isMouseDown, mouseX, mouseY, width, height } = data.payload
       sendMessageToIframes({
         type: EVT_IFRAME_MOUSEMOVED,
-        payload: { mouseX, mouseY, width, height }
+        payload: { isMouseDown, mouseX, mouseY, width, height }
       })
       break
     }
