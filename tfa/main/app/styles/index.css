@@ -9,15 +9,36 @@ iframe {
 }
 
 #container {
-  max-width: 700px; margin: 0 auto;
+  max-width: 1200px; margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
 }
 
 .page-iframe {
-  margin-bottom: 2rem;
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ratio-sizer {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.main {
+  width: calc(100% - 450px - 20px);
+}
+
+.aside {
+  width: 450px;
+}
+
+.iframe-wrapper {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 14px 28px rgba(0,0,0,0.025), 0 10px 10px rgba(0,0,0,0.15);
-}
-.page-iframe:last-of-type {
-  margin-bottom: 0;
 }

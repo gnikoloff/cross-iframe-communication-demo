@@ -23,13 +23,21 @@ function init () {
     name: 'iframe-control',
   })
   iframes.push(iframeControl)
-  container.appendChild(iframeControl)
+  const iframeControlContainer = document.getElementById('iframe-ctrl-container')
+  const iframeControlRatioSizer = document.createElement('div')
+  iframeControlRatioSizer.classList.add('ratio-sizer')
+  iframeControlRatioSizer.appendChild(iframeControl)
+  iframeControlContainer.appendChild(iframeControlRatioSizer)
   const iframe3D = makeIframe({
     src: 'http://localhost:3001/index.html',
     name: 'iframe-3d',
   })
   iframes.push(iframe3D)
-  container.appendChild(iframe3D)
+  const iframe3dContainer = document.getElementById('iframe-3d-container')
+  const iframe3dRatioSizer = document.createElement('div')
+  iframe3dRatioSizer.classList.add('ratio-sizer')
+  iframe3dRatioSizer.appendChild(iframe3D)
+  iframe3dContainer.appendChild(iframe3dRatioSizer)
 
   rAf = requestAnimationFrame(onRenderFrame)
   window.addEventListener('message', onWindowMessage)
@@ -83,8 +91,8 @@ function onWindowMessage (e) {
 function makeIframe ({
   src,
   name,
-  width = 700,
-  height = 400,
+  width = 100,
+  height = 100,
   className = 'page-iframe'
 }) {
   const iframe = document.createElement('iframe')
