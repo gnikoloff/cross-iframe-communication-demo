@@ -1,0 +1,23 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  padding-top: 2rem;
+}
+
+iframe {
+  border: 0;
+}
+
+#container {
+  max-width: 700px; margin: 0 auto;
+}
+
+.iframe-wrapper {
+  margin-bottom: 2rem;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.025), 0 10px 10px rgba(0,0,0,0.15);
+}
+.iframe-wrapper:last-of-type {
+  margin-bottom: 0;
+}

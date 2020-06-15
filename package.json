@@ -4,11 +4,9 @@
   "description": "A simple tutorial explaining how to coordinate between multiple iframes on the same page",
   "main": "index.js",
   "scripts": {
-    "start-server": "node server.js",
-    "start-main": "parcel watch app/main/index.html",
-    "start-iframe-3d": "parcel watch app/iframe-3d/index.html --out-dir dist/iframe-3d",
-    "start-iframe-control": "parcel watch app/iframe-control/index.html --out-dir dist/iframe-control",
-    "start": "npm-run-all --parallel start-server start-main start-iframe-3d start-iframe-control"
+    "start-server": "nodemon server.js",
+    "watch": "parcel watch tfa/main/index.html",
+    "start": "npm-run-all --parallel start-server watch"
   },
   "keywords": [
     "iframe",
