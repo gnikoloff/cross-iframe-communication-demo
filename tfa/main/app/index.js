@@ -22,27 +22,28 @@ document.addEventListener('DOMContentLoaded', init)
 function init () {
   const iframeControlContainer = document.getElementById('iframe-ctrl-container')
   const iframeControl = makeIframe({
-    src: 'http://localhost:3002/index.html',
+    src: 'http://192.168.0.12:3002/index.html',
     name: 'iframe-control',
     parentNode: iframeControlContainer,
   })
 
   const iframeSpeedContainer = document.getElementById('iframe-speed-container')
   const iframeSpeed = makeIframe({
-    src: 'http://localhost:3003/index.html',
+    src: 'http://192.168.0.12:3003/index.html',
     name: 'iframe-speed',
     parentNode: iframeSpeedContainer,
   })
   
   const iframe3dContainer = document.getElementById('iframe-3d-container')
   const iframe3D = makeIframe({
-    src: 'http://localhost:3001/index.html',
+    src: 'http://192.168.0.12:3001/index.html',
     name: 'iframe-3d',
     parentNode: iframe3dContainer,
   })
   
   rAf = requestAnimationFrame(onRenderFrame)
   window.addEventListener('message', onWindowMessage)
+  document.body.addEventListener('touchmove', e => e.preventDefault())
 }
 
 function onRenderFrame (t) {

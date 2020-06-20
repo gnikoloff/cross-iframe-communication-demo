@@ -16,14 +16,14 @@ iframe {
   padding: 0 2rem;
 }
 
+#iframe-ctrl-container {
+  margin-bottom: 3rem;
+}
+
 @media (min-width: 1000px) {
   #container {
     flex-direction: row;
     justify-content: space-between;
-  }
-
-  #iframe-ctrl-container {
-    margin-bottom: 3rem;
   }
 }
 
@@ -43,7 +43,8 @@ iframe {
 }
 
 .main {
-  width: 450px;
+  width: 100%;
+  max-width: 450px;
 }
 
 .aside {
@@ -62,4 +63,5 @@ iframe {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0,0,0,0.125);
+  transform: translate3d(0, 0, 0);
 }

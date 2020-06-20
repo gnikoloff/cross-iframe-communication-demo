@@ -52,10 +52,21 @@ function init () {
 
   renderIndicator({ x: canvas.width / 2, y: canvas.height / 2 })
 
-  document.body.addEventListener('mousedown', onMouseDown)
-  document.body.addEventListener('mousemove', onMouseMove)
+  document.body.addEventListener('mousedown', e => onMouseDown({ x: e.pageX, y: e.pageY }))
+  document.body.addEventListener('mousemove', e => onMouseMove({ x: e.pageX, y: e.pageY }))
   document.body.addEventListener('mouseup', onMouseUp)
   document.body.addEventListener('mouseleave', onMouseUp)
+
+  document.body.addEventListener('touchstart', e => {
+    onMouseDown({ x: e.touches[0].clientX * dpr, y: e.touches[0].clientY * dpr })
+  })
+  document.body.addEventListener('touchmove', e => {
+    e.preventDefault()
+    e.stopPropagation()
+    onMouseMove({ x: e.touches[0].clientX * dpr, y: e.touches[0].clientY * dpr })
+  })
+  document.body.addEventListener('touchend', onMouseUp)
+  document.body.addEventListener('touchcancel', onMouseUp)
 
   window.addEventListener('message', onWindowMessage)
 
@@ -92,25 +103,25 @@ function onWindowMessage (e) {
   }
 }
 
-function onMouseDown (e) {
+function onMouseDown ({ x, y }) {
   sendMessageToParent({
     type: EVT_IFRAME_CONTROL_MOUSEDOWN,
     payload: {
-      mouseX: e.pageX,
-      mouseY: e.pageY,
+      mouseX: x,
+      mouseY: y,
       width: innerWidth,
       height: innerHeight,
     }
   })
 }
 
-function onMouseMove (e) {
+function onMouseMove ({ x, y }) {
   sendMessageToParent({
     type: EVT_IFRAME_CONTROL_MOUSEMOVE,
     payload: {
       isMouseDown,
-      mouseX: e.pageX,
-      mouseY: e.pageY,
+      mouseX: x,
+      mouseY: y,
       width: innerWidth,
       height: innerHeight,
     }

@@ -17,9 +17,10 @@ h1 {
   top: 18px;
   left: 18px;
   z-index: 1;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 input[type=range] {

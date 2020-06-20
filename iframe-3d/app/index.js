@@ -65,6 +65,7 @@ function init () {
 
 function generateParticles () {
   const positions = new Float32Array(PARTICLE_COUNT * 3)
+  const sizes = new Float32Array(PARTICLE_COUNT)
   for (let i = 0; i < PARTICLE_COUNT; i++) {
     const x = (Math.random() * 2 - 1) * WORLD_BOUNDARY
     const y = (Math.random() * 2 - 1) * WORLD_BOUNDARY
@@ -72,9 +73,12 @@ function generateParticles () {
     positions[i * 3 + 0] = x
     positions[i * 3 + 1] = y
     positions[i * 3 + 2] = z
+
+    sizes[i] = i < 3 ? 20 * dpr : 2 * dpr
   }
   const bufferGeometry = new THREE.BufferGeometry()
   bufferGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+  bufferGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1))
   const material = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
