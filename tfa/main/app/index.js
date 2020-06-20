@@ -5,6 +5,8 @@ import {
   EVT_IFRAME_MOUSEMOVED,
   EVT_IFRAME_FRAME_RENDERED,
   EVT_IFRAME_MOUSEPRESSED,
+  EVT_IFRAME_CONTROL_SPEED,
+  EVT_IFRAME_FRAME_SPEED_CHANGED,
 } from '../../../shared/constants'
 
 import './styles'
@@ -18,27 +20,27 @@ let oldTime = 0
 document.addEventListener('DOMContentLoaded', init)
 
 function init () {
+  const iframeControlContainer = document.getElementById('iframe-ctrl-container')
   const iframeControl = makeIframe({
     src: 'http://localhost:3002/index.html',
     name: 'iframe-control',
+    parentNode: iframeControlContainer,
   })
-  iframes.push(iframeControl)
-  const iframeControlContainer = document.getElementById('iframe-ctrl-container')
-  const iframeControlRatioSizer = document.createElement('div')
-  iframeControlRatioSizer.classList.add('ratio-sizer')
-  iframeControlRatioSizer.appendChild(iframeControl)
-  iframeControlContainer.appendChild(iframeControlRatioSizer)
+
+  const iframeSpeedContainer = document.getElementById('iframe-speed-container')
+  const iframeSpeed = makeIframe({
+    src: 'http://localhost:3003/index.html',
+    name: 'iframe-speed',
+    parentNode: iframeSpeedContainer,
+  })
+  
+  const iframe3dContainer = document.getElementById('iframe-3d-container')
   const iframe3D = makeIframe({
     src: 'http://localhost:3001/index.html',
     name: 'iframe-3d',
+    parentNode: iframe3dContainer,
   })
-  iframes.push(iframe3D)
-  const iframe3dContainer = document.getElementById('iframe-3d-container')
-  const iframe3dRatioSizer = document.createElement('div')
-  iframe3dRatioSizer.classList.add('ratio-sizer')
-  iframe3dRatioSizer.appendChild(iframe3D)
-  iframe3dContainer.appendChild(iframe3dRatioSizer)
-
+  
   rAf = requestAnimationFrame(onRenderFrame)
   window.addEventListener('message', onWindowMessage)
 }
@@ -85,12 +87,20 @@ function onWindowMessage (e) {
       })
       break
     }
+    case EVT_IFRAME_CONTROL_SPEED: {
+      const { speed } = data.payload
+      sendMessageToIframes({
+        type: EVT_IFRAME_FRAME_SPEED_CHANGED,
+        payload: { speed },
+      })
+    }
   }
 }
 
 function makeIframe ({
   src,
   name,
+  parentNode,
   width = 100,
   height = 100,
   className = 'page-iframe'
@@ -102,6 +112,14 @@ function makeIframe ({
   iframe.setAttribute('width', width)
   iframe.setAttribute('height', height)
   iframe.classList.add(className)
+
+  iframes.push(iframe)
+
+  const iframeControlRatioSizer = document.createElement('div')
+  iframeControlRatioSizer.classList.add('ratio-sizer')
+  iframeControlRatioSizer.appendChild(iframe)
+  parentNode.appendChild(iframeControlRatioSizer)
+
   return iframe
 }
 

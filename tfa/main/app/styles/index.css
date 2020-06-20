@@ -21,6 +21,10 @@ iframe {
     flex-direction: row;
     justify-content: space-between;
   }
+
+  #iframe-ctrl-container {
+    margin-bottom: 3rem;
+  }
 }
 
 .page-iframe {

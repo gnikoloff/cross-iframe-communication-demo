@@ -37,6 +37,8 @@ function init () {
   cursorPosition.style.position = 'fixed'
   cursorPosition.style.zIndex = '1'
   cursorPosition.style.right = cursorPosition.style.bottom = '24px'
+  cursorPosition.style.transition = 'opacity 0.2s ease-in'
+  cursorPosition.style.opacity = '0'
   document.body.appendChild(cursorPosition)
 
   canvas = document.createElement('canvas')
@@ -47,6 +49,8 @@ function init () {
   document.body.appendChild(canvas)
 
   ctx = canvas.getContext('2d')
+
+  renderIndicator({ x: canvas.width / 2, y: canvas.height / 2 })
 
   document.body.addEventListener('mousedown', onMouseDown)
   document.body.addEventListener('mousemove', onMouseMove)
@@ -68,6 +72,7 @@ function onWindowMessage (e) {
     case EVT_IFRAME_MOUSEPRESSED: {
       const { mouseX, mouseY } = data.payload
       isMouseDown = true
+      cursorPosition.style.opacity = '1'
       break
     }
     case EVT_IFRAME_MOUSEMOVED: {
@@ -80,21 +85,7 @@ function onWindowMessage (e) {
       if (!isMouseDown) {
         return
       }
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)'
-      ctx.beginPath()
-      ctx.moveTo(0, 0)
-      ctx.lineTo(mouseX, mouseY)
-      ctx.lineTo(canvas.width, canvas.height)
-      ctx.stroke()
-      ctx.beginPath()
-      ctx.moveTo(canvas.width, 0)
-      ctx.lineTo(mouseX, mouseY)
-      ctx.lineTo(0, canvas.height)
-      ctx.stroke()
-      ctx.beginPath()
-      ctx.arc(mouseX, mouseY, 5, 0, Math.PI * 2)
-      ctx.fill()
+      renderIndicator({ x: mouseX, y: mouseY })
       cursorPosition.textContent = `X: ${mouseX} Y: ${mouseY}`
       break
     }
@@ -128,4 +119,22 @@ function onMouseMove (e) {
 
 function onMouseUp () {
   isMouseDown = false
+}
+
+function renderIndicator ({ x, y }) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)'
+  ctx.beginPath()
+  ctx.moveTo(0, 0)
+  ctx.lineTo(x, y)
+  ctx.lineTo(canvas.width, canvas.height)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.moveTo(canvas.width, 0)
+  ctx.lineTo(x, y)
+  ctx.lineTo(0, canvas.height)
+  ctx.stroke()
+  ctx.beginPath()
+  ctx.arc(x, y, 10, 0, Math.PI * 2)
+  ctx.fill()
 }

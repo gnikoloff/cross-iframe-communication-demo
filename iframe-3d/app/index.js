@@ -7,6 +7,7 @@ import {
   EVT_IFRAME_FRAME_RENDERED,
   EVT_IFRAME_MOUSEPRESSED,
   EVT_IFRAME_MOUSEMOVED,
+  EVT_IFRAME_FRAME_SPEED_CHANGED,
 } from '../../shared/constants'
 
 import {
@@ -18,7 +19,7 @@ import particlesFragmentShader from './particles-fragment-shader.frag'
 
 import './styles'
 
-const PARTICLE_COUNT = 2000
+const PARTICLE_COUNT = 5000
 const WORLD_BOUNDARY = 50
 
 const iframeName = getIframeName(window.location.search)
@@ -31,6 +32,8 @@ const cameraControls = new CameraControls(camera, document.body)
 let particles
 let oldMouseX = 0
 let oldMouseY = 0
+let timeScale = 0.5
+let timeScaleTarget = timeScale
 
 document.addEventListener('DOMContentLoaded', init)
 
@@ -75,6 +78,7 @@ function generateParticles () {
   const material = new THREE.ShaderMaterial({
     uniforms: {
       time: { value: 0 },
+      timeScale: { value: 0 },
     },
     vertexShader: particlesVertexShader,
     fragmentShader: particlesFragmentShader,
@@ -97,6 +101,9 @@ function onMessage (e) {
       const { t, dt } = data.payload
       const hasControlsUpdated = cameraControls.update(dt)
       particles.material.uniforms.time.value = t
+      particles.material.uniforms.timeScale.value = timeScale
+
+      timeScale += (timeScaleTarget - timeScale) * (dt * 5)
       renderer.render(scene, camera)
       break
     }
@@ -118,6 +125,11 @@ function onMessage (e) {
       cameraControls.rotate(azimuthAngle, polarAngle, true)
       oldMouseX = mouseX
       oldMouseY = mouseY
+      break
+    }
+    case EVT_IFRAME_FRAME_SPEED_CHANGED: {
+      const { speed } = data.payload
+      timeScaleTarget = speed
       break
     }
   }
