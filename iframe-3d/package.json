@@ -1,8 +1,8 @@
 {
   "name": "iframe-3d",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "Simple iframe that renders a 3D scene with inputs streamed from the parent window",
+  "main": "app/index.js",
   "scripts": {
     "start-server": "node server",
     "watch": "parcel watch index.html --out-dir dist/",

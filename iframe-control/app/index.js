@@ -42,11 +42,8 @@ function init () {
   document.body.appendChild(cursorPosition)
 
   canvas = document.createElement('canvas')
-  canvas.width = innerWidth * dpr
-  canvas.height = innerHeight * dpr
-  canvas.style.width = `${innerWidth}px`
-  canvas.style.height = `${innerHeight}px`
   document.body.appendChild(canvas)
+  onResize()
 
   ctx = canvas.getContext('2d')
 
@@ -69,6 +66,7 @@ function init () {
   document.body.addEventListener('touchcancel', onMouseUp)
 
   window.addEventListener('message', onWindowMessage)
+  window.addEventListener('resize', onResize)
 
 }
 
@@ -148,4 +146,11 @@ function renderIndicator ({ x, y }) {
   ctx.beginPath()
   ctx.arc(x, y, 10 * dpr, 0, Math.PI * 2)
   ctx.fill()
+}
+
+function onResize () {
+  canvas.width = innerWidth * dpr
+  canvas.height = innerHeight * dpr
+  canvas.style.width = `${innerWidth}px`
+  canvas.style.height = `${innerHeight}px`
 }

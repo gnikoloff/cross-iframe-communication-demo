@@ -1,8 +1,8 @@
 {
   "name": "cross-iframe-communication-tutorial",
   "version": "0.0.1",
-  "description": "A simple tutorial explaining how to coordinate between multiple iframes on the same page",
-  "main": "index.js",
+  "description": "Topframe adapter that glues multiple iframe and acts as a coordinator between them",
+  "main": "app/index.js",
   "scripts": {
     "start-server": "nodemon server.js",
     "watch": "parcel watch index.html",
@@ -12,7 +12,8 @@
   "keywords": [
     "iframe",
     "postMessage",
-    "RPC"
+    "RPC",
+    "iframe-communication"
   ],
   "author": "Georgi Nikoloff",
   "license": "ISC",

@@ -1,15 +1,21 @@
 {
-  "name": "iframe-3d",
+  "name": "iframe-control",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "Simple iframe that caputures the mouse input and propagates it to the parent window",
+  "main": "app/index.js",
   "scripts": {
     "start-server": "nodemon server",
     "watch": "parcel watch index.html --out-dir dist/",
     "build": "parcel build index.html --out-dir dist/",
     "start": "npm-run-all --parallel start-server watch"
   },
-  "author": "",
+  "author": "Georgi Nikoloff",
+  "keywords": [
+    "iframe",
+    "postMessage",
+    "RPC",
+    "iframe-communication"
+  ],
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"

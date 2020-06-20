@@ -1,17 +1,12 @@
 {
   "name": "cross-iframe-communication-tutorial",
   "version": "0.0.1",
-  "description": "A simple tutorial explaining how to coordinate between multiple iframes on the same page",
-  "main": "index.js",
+  "description": "A simple tutorial explaining how to coordinate multiple iframes on the same page and exchange data between them",
   "scripts": {
     "start-iframe-control": "cd iframe-control && npm start",
-    "start-iframe-speed": "cd iframe-speed && nodemon server.js",
-    "start-iframe-3d": "cd iframe-3d && nodemon server.js",
-    "start-tfa": "cd tfa && nodemon server.js",
-    "watch-iframe-control": "cd iframe-control && npm run watch",
-    "watch-iframe-speed": "cd iframe-speed && npm run watch",
-    "watch-iframe-3d": "cd iframe-3d && npm run watch",
-    "watch-tfa": "cd tfa && npm run watch",
+    "start-iframe-speed": "cd iframe-speed && npm start",
+    "start-iframe-3d": "cd iframe-3d && npm start",
+    "start-tfa": "cd tfa && npm start",
     "build-iframe-control": "cd iframe-control && npm run build",
     "build-iframe-speed": "cd iframe-speed && npm run build",
     "build-iframe-3d": "cd iframe-3d && npm run build",
@@ -20,17 +15,16 @@
     "deploy-iframe-speed": "now --prod ./iframe-speed",
     "deploy-iframe-3d": "now --prod ./iframe-3d",
     "deploy-tfa": "now --prod ./tfa",
-    "watch-projects": "npm-run-all --parallel watch-iframe-control watch-iframe-speed watch-iframe-3d watch-tfa",
-    "start-projects": "npm-run-all --parallel start-iframe-control start-iframe-speed start-iframe-3d start-tfa",
     "build-projects": "npm-run-all --parallel build-iframe-control build-iframe-speed build-iframe-3d build-tfa",
     "deploy-projects": "npm-run-all --parallel deploy-iframe-control deploy-iframe-speed deploy-iframe-3d deploy-tfa",
-    "start": "npm-run-all --parallel watch-projects start-projects",
+    "start": "npm-run-all --parallel start-iframe-control start-iframe-speed start-iframe-3d start-tfa",
     "deploy": "npm-run-all --parallel build-projects deploy-projects"
   },
   "keywords": [
     "iframe",
     "postMessage",
-    "RPC"
+    "RPC",
+    "iframe-communication"
   ],
   "author": "Georgi Nikoloff",
   "license": "ISC",
