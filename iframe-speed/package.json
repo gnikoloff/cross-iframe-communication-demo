@@ -6,6 +6,7 @@
   "scripts": {
     "start-server": "nodemon server",
     "watch": "parcel watch index.html --out-dir dist/",
+    "build": "parcel build index.html --out-dir dist/",
     "start": "npm-run-all --parallel start-server watch"
   },
   "author": "",

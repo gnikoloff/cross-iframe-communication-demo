@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start-server": "nodemon server.js",
-    "watch": "parcel watch main/index.html",
+    "watch": "parcel watch index.html",
+    "build": "parcel build index.html --out-dir dist/",
     "start": "npm-run-all --parallel start-server watch"
   },
   "keywords": [

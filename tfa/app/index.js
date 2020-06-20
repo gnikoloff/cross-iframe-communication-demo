@@ -1,4 +1,11 @@
 import {
+  IFRAME_3D_SOURCE,
+  IFRAME_CONTROL_SOURCE,
+  IFRAME_SPEED_SOURCE,
+  IFRAME_3D_NAME,
+  IFRAME_CONTROL_NAME,
+  IFRAME_SPEED_NAME,
+
   EVT_IFRAME_READY,
   EVT_IFRAME_CONTROL_MOUSEMOVE, 
   EVT_IFRAME_CONTROL_MOUSEDOWN,
@@ -7,7 +14,7 @@ import {
   EVT_IFRAME_MOUSEPRESSED,
   EVT_IFRAME_CONTROL_SPEED,
   EVT_IFRAME_FRAME_SPEED_CHANGED,
-} from '../../../shared/constants'
+} from '../../shared/constants'
 
 import './styles'
 
@@ -21,23 +28,23 @@ document.addEventListener('DOMContentLoaded', init)
 
 function init () {
   const iframeControlContainer = document.getElementById('iframe-ctrl-container')
-  const iframeControl = makeIframe({
-    src: 'http://192.168.0.12:3002/index.html',
-    name: 'iframe-control',
+  makeIframe({
+    src: IFRAME_CONTROL_SOURCE,
+    name: IFRAME_CONTROL_NAME,
     parentNode: iframeControlContainer,
   })
 
   const iframeSpeedContainer = document.getElementById('iframe-speed-container')
-  const iframeSpeed = makeIframe({
-    src: 'http://192.168.0.12:3003/index.html',
-    name: 'iframe-speed',
+  makeIframe({
+    src: IFRAME_SPEED_SOURCE,
+    name: IFRAME_SPEED_NAME,
     parentNode: iframeSpeedContainer,
   })
   
   const iframe3dContainer = document.getElementById('iframe-3d-container')
-  const iframe3D = makeIframe({
-    src: 'http://192.168.0.12:3001/index.html',
-    name: 'iframe-3d',
+  makeIframe({
+    src: IFRAME_3D_SOURCE,
+    name: IFRAME_3D_NAME,
     parentNode: iframe3dContainer,
   })
   
