@@ -13,7 +13,13 @@ import {
   getIframeName,
 } from '../../shared/helpers'
 
+import particlesVertexShader from './particles-vertex-shader.vert'
+import particlesFragmentShader from './particles-fragment-shader.frag'
+
 import './styles'
+
+const PARTICLE_COUNT = 2000
+const WORLD_BOUNDARY = 50
 
 const iframeName = getIframeName(window.location.search)
 const dpr = devicePixelRatio || 1
@@ -22,6 +28,7 @@ const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.01, 1000)
 const cameraControls = new CameraControls(camera, document.body)
 
+let particles
 let oldMouseX = 0
 let oldMouseY = 0
 
@@ -44,11 +51,37 @@ function init () {
   cameraControls.setPosition(0, 5, 5)
   cameraControls.enabled = false
 
-  scene.add(new THREE.GridHelper(20, 20))
+  // scene.add(new THREE.GridHelper(20, 20))
+  particles = generateParticles()
+  scene.add(particles)
 
   window.addEventListener('message', onMessage)
   window.addEventListener('resize', onResize)
 
+}
+
+function generateParticles () {
+  const positions = new Float32Array(PARTICLE_COUNT * 3)
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    const x = (Math.random() * 2 - 1) * WORLD_BOUNDARY
+    const y = (Math.random() * 2 - 1) * WORLD_BOUNDARY
+    const z = (Math.random() * 2 - 1) * WORLD_BOUNDARY
+    positions[i * 3 + 0] = x
+    positions[i * 3 + 1] = y
+    positions[i * 3 + 2] = z
+  }
+  const bufferGeometry = new THREE.BufferGeometry()
+  bufferGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      time: { value: 0 },
+    },
+    vertexShader: particlesVertexShader,
+    fragmentShader: particlesFragmentShader,
+    transparent: true,
+  })
+  const mesh = new THREE.Points(bufferGeometry, material)
+  return mesh
 }
 
 function onMessage (e) {
@@ -63,6 +96,7 @@ function onMessage (e) {
     case EVT_IFRAME_FRAME_RENDERED: {
       const { t, dt } = data.payload
       const hasControlsUpdated = cameraControls.update(dt)
+      particles.material.uniforms.time.value = t
       renderer.render(scene, camera)
       break
     }

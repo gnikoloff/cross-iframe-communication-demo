@@ -9,6 +9,8 @@ iframe {
 }
 
 #container {
+  display: flex;
+  flex-direction: column-reverse;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
@@ -16,7 +18,7 @@ iframe {
 
 @media (min-width: 1000px) {
   #container {
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
   }
 }
@@ -41,13 +43,13 @@ iframe {
 }
 
 .aside {
-  margin-top: 2rem;
+  margin-bottom: 2rem;
   width: 100%;
 }
 
 @media (min-width: 1000px) {
   .aside {
-    margin-top: 0;
+    margin-bottom: 0;
     width: calc(100% - 450px - 60px);
   }
 }
