@@ -14,7 +14,7 @@
   "dependencies": {
     "camera-controls": "^1.22.1",
     "express": "^4.17.1",
-    "three": "^0.117.1"
+    "three": "^0.125.0"
   },
   "devDependencies": {
     "glslify-bundle": "^5.1.1",
